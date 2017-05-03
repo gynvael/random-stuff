@@ -1,4 +1,4 @@
-#A brute-forcing zlib decompressor
+# A brute-forcing zlib decompressor
 
 by Gynvael Coldwind (http://gynvael.coldwind.pl)
 
