@@ -1,12 +1,27 @@
-// Link this against kernel32.dll directly.
 #include <windows.h>
 #include <stdio.h>
 #include <vector>
 
-extern "C" DWORD GetConsoleCommandHistoryLengthA(char *exename);
-extern "C" DWORD GetConsoleCommandHistoryA(VOID *buffer, DWORD buffer_len, char *exename);
+// This would work for MinGW gcc/ld when linking directly with kernel32.dll.
+// But MSVC can't really do that...
+// extern "C" DWORD GetConsoleCommandHistoryLengthA(char *exename);
+// extern "C" DWORD GetConsoleCommandHistoryA(
+//     VOID *buffer, DWORD buffer_len, char *exename);
+
+typedef DWORD (*PFUNCGETLENGTH)(char *exename);
+typedef DWORD (*PFUNCGET)(
+    VOID *buffer, DWORD buffer_len, char *exename);
+
+PFUNCGETLENGTH GetConsoleCommandHistoryLengthA;
+PFUNCGET GetConsoleCommandHistoryA;
 
 int main(int argc, char **argv) {
+  HMODULE kernel32 = GetModuleHandle("kernel32.dll");  // It's always in memory.
+  GetConsoleCommandHistoryA = (PFUNCGET)GetProcAddress(
+      kernel32, "GetConsoleCommandHistoryA");
+  GetConsoleCommandHistoryLengthA = (PFUNCGETLENGTH)GetProcAddress(
+      kernel32, "GetConsoleCommandHistoryLengthA");
+
   if (argc != 2) {
     fprintf(stderr, "usage: history <exename>");
     return 1;
