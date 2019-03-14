@@ -2,7 +2,7 @@ use strict;
 use vars qw($VERSION %IRSSI);
 
 use Irssi;
-$VERSION= '0.00.01';
+$VERSION= '0.00.02';
 %IRSSI = (
   authors => 'Gynvael Coldwind',
   contact => 'gynvael@coldwind.pl',
@@ -12,20 +12,23 @@ $VERSION= '0.00.01';
   url => 'https://gynvael.coldwind.pl/'
 );
 
-sub handle_message {
-  my ($server, $msg, $nick, $nick_addr, $channel, @x) = @_;
-  return unless $nick eq 'foxbridge';
-  &event_message;
-}
+# Special thanks to wiechu!
 
-sub event_message {
-  my ($server, $msg, $nick, @rest) = @_;
-  $nick = $msg;
-  $nick =~ s/>.*$//;
-  $nick =~ s/<//;
-  $nick = 'D|' . $nick;
-  $msg =~ s/^.*?> //;
-  Irssi::signal_continue($server, $msg, $nick, @rest);
+sub handle_message {
+  my ($server, $msg, $nick, $nick_addr, $channel, @rest) = @_;
+
+  if ($nick ne 'foxbridge') {
+    return;
+  }
+
+  if (($channel ne '#gynvaelstream') && ($channel ne '#gynvaelstream-en')) {
+    return;
+  }
+
+  if ($msg =~ s{^<\x03([02-9]|1[0-5])(.+?)\x0f>\s}{}x) {
+    $nick = 'D|' . $2;
+    Irssi::signal_continue($server, $msg, $nick, $nick_addr, $channel, @rest);
+  }
 }
 
 Irssi::signal_add_first('message public', 'handle_message');
