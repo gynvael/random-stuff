@@ -1,0 +1,9 @@
+LIBRARY basic
+EXPORTS
+info
+init
+cmd_date
+cmd_time
+cmd_paramtest
+cmd_echo
+

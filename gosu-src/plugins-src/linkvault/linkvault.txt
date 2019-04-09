@@ -1,0 +1,66 @@
+.lv file format:
+
+[FILE]
+uint  section number (a)
+  -- section -- a times
+  uint     index
+  uint     item number (b)
+  char[64] name
+    -- item -- b times
+    char[64]  link
+    char[64]  linkname
+    char[256] desc
+    -- item --
+    ...
+  -- section --
+  ...
+[/FILE]
+
+  /* display section header */
+  ret = _snprintf( buffer, 1024, msk_section,
+  lv->sections[ sec ].name, req, sec, adddata, sel_left, sel_right );
+  OUTPROC(output)( buffer, ret );
+  
+  /* enum items */
+  for( j = 0; j < lv->sections[ sec ].item_no; j++ )
+  {
+    ret = _snprintf( buffer, 1024, msk_item,
+    lv->sections[ sec ].items[ j ].link,
+    sel_left,
+    lv->sections[ sec ].items[ j ].linkname,
+    lv->sections[ sec ].items[ j ].desc,
+    sel_right );
+    OUTPROC(output)( buffer, ret );
+  }
+
+
+
+
+
+
+  /* check for up and down */
+  if( todo && itemno )
+  {
+    sscanf( itemno, "%u", &no );
+    if( no < lv->sections[ sec ].item_no )
+    {
+      if( ( strcmp( todo, "up" ) == 0 ) && no )
+      {
+        memcpy( &nitem, &lv->sections[ sec ].items[ no ], sizeof( lvfitem ) );
+        memcpy( &lv->sections[ sec ].items[ no ], 
+                &lv->sections[ sec ].items[ no - 1 ], sizeof( lvfitem ) );
+        memcpy( &lv->sections[ sec ].items[ no - 1 ], &nitem, sizeof( lvfitem ) );
+        save_sections( src, lv, output );
+      }
+      else if( ( strcmp( todo, "down" ) == 0 ) &&
+               ( no != lv->sections[ sec ].item_no - 1 ) )
+      {
+        memcpy( &nitem, &lv->sections[ sec ].items[ no ], sizeof( lvfitem ) );
+        memcpy( &lv->sections[ sec ].items[ no ], 
+                &lv->sections[ sec ].items[ no + 1 ], sizeof( lvfitem ) );
+        memcpy( &lv->sections[ sec ].items[ no + 1 ], &nitem, sizeof( lvfitem ) );
+        save_sections( src, lv, output );
+      }
+    }
+  }
+  

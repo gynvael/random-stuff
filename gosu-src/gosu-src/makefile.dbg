@@ -1,0 +1,9 @@
+OBJS	= string_ext.o linked_list.o varlst.o net.o http.o main.o config.o plugins.o script_parser.o
+GOUT	= ../gosu/gosu.exe
+
+%.o : %.c
+	gcc -c $< -o $@ -g
+
+$(GOUT): $(OBJS)
+	gcc $(OBJS) -o $(GOUT) -lwsock32 -g
+	

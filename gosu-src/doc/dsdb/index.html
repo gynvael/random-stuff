@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Dynamic Segment Data Bank documentation</title>
+<meta name="description" content="DSDB documentation">
+<meta name="keywords" content="DSDB, dynamic segment data bank">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="Generator" content="notepad">
+</head>
+
+<body>
+<h1 align="center">Dynamic Segment Data Bank</h1>
+<p align="center"><strong>Dynamic Segment Data Bank documentation project</strong></p>
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, with no Front-Cover Texts and with no
+Back-Cover Texts.
+A copy of the license is included in the section intitled "GNU Free
+Documentation License".
+<br><br>
+Copyright &#169; 2004 Vexillium
+<br>
+
+<br><hr>
+<!-- Contents -->
+<a name="content"/>
+<ul>
+<li><a href="#content">Contents</a>
+<li><a href="#intro">Introduction</a>
+<ul>
+<li><a href="#intro_about">About this Document</a>
+<li><a href="#intro_what">What is DSDB</a>
+<li><a href="#intro_bugs">Reporting bugs</a>
+</ul>
+<li><a href="#desc">DSDB Description</a>
+<ul>
+<li><a href="#desc_concept">Concept</a>
+<li><a href="#desc_usage">Example of usage</a>
+</ul>
+<li><a href="#struct">Structures</a>
+<ul>
+<li><a href="#struct_seg">struct dsdb_segment_def</a>
+<li><a href="#struct_dsdb">struct dsdb_def</a>
+</ul>
+<li><a href="#func">Functions</a>
+<ul>
+<li><a href="#func_create">dsdb_create</a>
+<li><a href="#func_destroy">dsdb_destroy</a>
+<li><a href="#func_read">dsdb_read</a>
+<li><a href="#func_write">dsdb_write</a>
+<li><a href="#func_seek">dsdb_seek</a>
+<li><a href="#func_tell">dsdb_tell</a>
+<li><a href="#func_datasize">dsdb_datasize</a>
+<li><a href="#func_memsize">dsdb_memsize</a>
+<li><a href="#func_memusage">dsdb_memusage</a>
+<li><a href="#func_pre_alloc">dsdb_pre_alloc</a>
+<li><a href="#func_pre_free">dsdb_pre_free</a>
+</ul>
+<li><a href="#gnu">GNU Free Documentation License</a>
+<ul>
+<li><a href="#gnu_pre">Preamble</a>
+<li><a href="#gnu_app">Applicability and Definitions</a>
+<li><a href="#gnu_ver">Verbatim Copying</a>
+<li><a href="#gnu_copy">Copying in Quantity</a>
+<li><a href="#gnu_mod">Modifications</a>
+<li><a href="#gnu_comb">Combining Documents</a>
+<li><a href="#gnu_coll">Collections of Documents</a>
+<li><a href="#gnu_agg">Aggregation With Independent Works</a>
+<li><a href="#gnu_trans">Translation</a>
+<li><a href="#gnu_term">Termination</a>
+<li><a href="#gnu_fut">Future Revisions of This License</a>
+<li><a href="#gnu_add">ADDENDUM: How to use this License for your documents</a>
+</ul>
+<li><a href="#about">About DSDB</a>
+</ul>
+
+<!-- Introduction -->
+<br><hr>
+<h1><a name="intro">Introduction</a></h1>
+
+<quote>"Imagination is more important then knowledge..."
+<br><i>Albert Einstein</i></quote>
+<br><br>
+<strong>Subsections</strong>
+<ul>
+<li><a href="#intro_about">About this Document</a>
+<li><a href="#intro_what">What is DSDB</a>
+<li><a href="#intro_bugs">Reporting bugs</a>
+</ul>
+
+<br><a href="#content">Contents</a><br>
+
+<!-- About this Document -->
+<br><hr>
+<h1><a name="intro_about">About this Document</a></h1>
+
+This document is intended to be used by programmers who want to understand and/or use DSDB module made by Gynvael Coldwind of Vexillium.
+<br>
+
+<br><a href="#content">Contents</a><br>
+
+<!-- What is DSDB -->
+<br><hr>
+<h1><a name="intro_what">What is DSDB</a></h1>
+
+DSDB is an acronym for Dynamic Segment Data Bank, which is a module that allows the programmist to use dynamicly sizeble memory bank, just as if he was using a file.
+<br>
+
+<br><a href="#content">Contents</a><br>
+
+<!-- Reporting bugs -->
+<br><hr>
+<h1><a name="intro_bugs">Reporting bugs</a></h1>
+
+If you find bugs, please send it to my email, gynvael@lunarii.org. When reporting a bug, please try to follow this guidelines: 1. Give it a good title and specify that the bug is in the DSDB module. Titles like "Help me"or "another bug" are not very helpful when looking for a certain bug. Try to find titles like "DSDB: memory leak when cleaning pre allocated segments" or "DSDB: core dumped when trying to access last segment". 2. Send only one bug in one email. Makes it easier to handle and assign the bugs to different developers. 3. Try to use the correct spelling for keywords. 4. Please care for your reports! Sometimes the devs have questions. Without your answers we can't fix the bug. 5. See if your bug hasn't been fixed in the newer version of DSDB.
+<br><br>
+Big THANKS to people who care and send us bug reports!
+<br>
+
+<br><a href="#content">Contents</a><br>
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+To Do List:
+- secure the /-servercmd special request
+- change linked_list to hash bin tree
+
+Bug List:
+- none known
+
+Request List:
+- Common Gateway Interface

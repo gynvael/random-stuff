@@ -1,0 +1,6 @@
+LIBRARY linkvault
+EXPORTS
+info
+init
+linkvault
+

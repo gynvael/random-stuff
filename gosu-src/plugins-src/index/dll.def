@@ -1,0 +1,6 @@
+LIBRARY index
+EXPORTS
+info
+init
+cmd_index
+
