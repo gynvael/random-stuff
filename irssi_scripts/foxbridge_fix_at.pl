@@ -26,7 +26,7 @@ sub handle_message {
   #print $msg;
   #print $string;
   if ($msg =~ s{^<\x03(0?[02-9]|1[0-5])(.+?)\x0f>\s}{}x) {
-    $nick = 'D|' . $2;
+    $nick = '@' . $2;
     Irssi::signal_continue($server, $msg, $nick, $nick_addr, $channel, @rest);
   }
 }
