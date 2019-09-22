@@ -1,0 +1,75 @@
+Random snippets of code.
+
+"weirdmul": Code("""
+    # (3 + 7) * A
+    LEFT
+    CLRA
+    LADDI 3
+    LADDI 4
+    RIGHT
+    LMUL r0
+    RET
+  """),
+
+  "counter": Code("""
+    SELECTA r5
+    CLRA
+    SELECTA r6
+    LSETI 12
+  myloop:
+    LINC r5
+    LDEC r6
+    LUCMPI 0
+    JMPCC 0x50, "myloop"
+    RET
+
+  """),
+
+
+  "start": Code("""
+    #EECALL "counter"
+    READVAR 14
+    COPY0 r5
+    SELECTA r5
+    STRSET ""
+    LTOA 0
+    #STRSET "Wrong flag. Please go away."
+    RET
+  """),
+
+
+
+
+
+  "save_all": Code("""
+    SELECTA r1
+    LSETI 24
+
+  loop:
+    INDA r1
+    SAVEIND r127
+    LINC r127
+    LINC r1
+    SELECTA r1
+    LUCMPI 32
+    BRACC 0x50, "loop"
+
+    RET
+  """),
+
+  "restore_all": Code("""
+    SELECTA r1
+    LSETI 31
+
+  loop:
+    INDA r1
+    LDEC r127
+    LOADIND r127
+    LSET0
+    LDEC r1
+    SELECTA r1
+    LUCMPI 23
+    BRACC 0x50, "loop"
+
+    RET
+  """),

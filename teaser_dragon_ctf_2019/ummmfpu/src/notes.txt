@@ -1,0 +1,67 @@
+EEWRITE requires quite a long delay, even longer than the suggested 1120us (3ms longer).
+Currently I'm going a while(Fpu.sync() != SYNC_CHAR) { long delay } to sync after write.
+Other instructions don't seem to require this.
+
+Actually the proper way to do it, is to connect SOUT also (i.e. in addition) with
+an INPUT pin - it acts as a Ready(0)/Busy(1) line, though one must still wait at
+least Minimum Data Period (1.6us) after transmission to look at it.
+
+Another way is to reflash the configuration words to use OUT1 as a Busy(0)/Ready(1)
+line, though this requires connecting a UART/Serial interface (hint: Shikra / BusPirate).
+
+EEPROM works on 32-bit address slots, which seem to be Little Endian.
+However, writing bytes is possible using EEWRITE instruction. Even though the
+instruction says it write 'bytes', it actually writes 16-bit words which are
+zero-padded.
+
+  Instruction                              EEPROM slot content
+
+  EEWRITE 16, 1, 0xA5                      FFFF00A5
+
+  EEWRITE 16, 2, 0xA5, 0xA6                FFFFA6A5
+
+  EEWRITE 16, 3, 0xA5, 0xA6, 0xA7          00A7A6A5
+
+  EEWRITE 16, 4, 0xA5, 0xA6, 0xA7, 0xA8    A8A7A6A5
+
+  EEWRITE 16, 4, 0xA5, 0xA6, 0xA7, 0xA8    ...
+  EEWRITE 16, 1, 0xCC                      A8A700CC
+
+Most of the input words/dwords seem to be Big Endian. This is certainly true for JMP instruction.
+
+JMP's address has origin (address 0) set to the beginning of the function.
+
+SMC idea, since there are only instructions to do EEPROM[imm8] = reg:
+Make a function that does write-what-where (it can be even on byte granularity,
+taking e.g. slot+offset) by first constructing the actual write function at the
+end of the memory (to dynamically fill in the imm8) and then calling it.
+The function itself:
+
+  Offset   Bytes     Comment
+  0        03        Length of function
+  1        DB ??     EESAVEA slot_number
+  3        80        RET
+
+
+Register map:
+
+  Register(s)        Comment
+           r0        Return value (also scratch register)
+    r1 -  r15        Scratch registers
+   r16 -  r23        Function arguments (and scratch regs)
+   r24 -  r31        Callee-preserve registers
+   r32 -  r95        Global variables and matrices
+     r40 - r55       Initial flag 4x4 matrix (MB)
+     r56 - r71       Operational matrix (MA)
+     r72 - r87       Good encrypted values
+   r92 - r126        Preserved variable stack
+         r127        Preserved variable stack pointer (PVSP)
+
+
+EEPROM memory map:
+
+  Slot (hex)  Size (DWORDs)      Comment
+  00          ?                  Actual program
+
+  FF          1                  Dynamically generated EEPROM read/write
+
