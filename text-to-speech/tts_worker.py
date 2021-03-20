@@ -91,7 +91,7 @@ while True:
   fname = "part_%.3i.mp3" % part
   f.write(f"file '{fname}'\n")
 
-  text_to_wav(fname, prev_t)
+  text_to_mp3(fname, prev_t)
   part += 1
   t = ""
 
