@@ -75,36 +75,51 @@ text = iter(text.splitlines())
 
 f = open("parts.txt", "w")
 
+CHUNK_SIZE = 3000
 part = 1
 final = False
+next_t = ""
+selected_t = ""
 while not final:
-  t = ""
-  while len(t) < 2500:
-    prev_t = t
+  if len(next_t) >= CHUNK_SIZE:
+    sys.exit("handle this case where next_t is over N char...")
+
+  candidate_t = next_t
+  next_t = ""
+  while len(candidate_t) < CHUNK_SIZE:
+    selected_t = candidate_t
     try:
-      nt = next(text).strip()
-      if not nt:
+      next_t = next(text).strip()
+      if not next_t:
         continue
-      t += nt + ".\n"
+      # TODO: This heuristic fails in case the source is e.g. formatted in the
+      # 80 column format (i.e. with a hard new line at the end). Some more
+      # though needs to be put into this - perhaps some heuristic to detect
+      # whether the text has paragraph-per-line or whether paragraph is split
+      # into multiple lines?
+      # In the latter case detecting stand-alone titles is a bit tricky, but
+      # they should be shorter than a line-split paragraph.
+      next_t += ".\n"
+
+      candidate_t += next_t
     except StopIteration:
       final = True
       break
 
-  #if len(prev_t.strip()) == 0:
-  #  break
+  del candidate_t
 
-  if len(prev_t) == 0 and not final:
-    sys.exit("handle this case where the line is more than 5k...")
+  if len(selected_t) == 0 and not final:
+    sys.exit("handle this case where the line is more than N chars...")
 
   fname = "part_%.3i.mp3" % part
   f.write(f"file '{fname}'\n")
 
   with open(f"{fname}.txt", "w", encoding="utf-8") as g:
-    g.write(t)
+    g.write(selected_t)
 
-  text_to_mp3(fname, prev_t)
+  text_to_mp3(fname, selected_t)
   part += 1
-  t = ""
+  selected_t = ""
 
 f.close()
 
