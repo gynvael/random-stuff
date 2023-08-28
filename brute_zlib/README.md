@@ -2,7 +2,7 @@
 
 by Gynvael Coldwind (http://gynvael.coldwind.pl)
 
-_Note: This isn't really a tool - it's a code snippet that works by accident. No guarantee is given that it does it's job._
+_Note: This isn't really a tool - it's a code snippet that works by accident. No guarantee is given that it does its job._
 
 It's somewhat useful to extract data from corrupted ZIP archives and other binary blobs which might contains DEFLATE streams.
 
