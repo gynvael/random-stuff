@@ -33,7 +33,7 @@ def DecompressStream(d):
     return (None, e)
 
 if len(sys.argv) != 2:
-  print "usage: brute_zlib.py <fname>"
+  print("usage: brute_zlib.py <fname>")
   sys.exit(1)
 
 with open(sys.argv[1], "rb") as f:
@@ -43,21 +43,19 @@ threshold = 10
 
 for i in range(len(d)):
   if i % 1234 == 0:
-    print "  0x%x / 0x%x\r" % (i, len(d)),
+    print("  0x%x / 0x%x\r" % (i, len(d)), end="")
     sys.stdout.flush()
 
   data, unused = DecompressStream(d[i:i+128])
-  if type(data) is str and len(data) > 0:
+  if type(data) is bytes and len(data) > 0:
 
     #if len(unused) == 0:
     #  # Re-try on full.
-    #  print "RETRY:", i, data, unused
+    #  print("RETRY:", i, data, unused)
     # data, unused = DecompressStream(d[i:])
-    #  print "RESULT:", data, unused
+    #  print("RESULT:", data, unused)
 
     if len(data) > threshold:
       with open("%.8x.bin" % i, "wb") as f:
         f.write(data)
-      print "Some data at %.8x" % i
-
-
+      print(f"Some data at {i:08x}: {data[:40]}{'...' if len(data)>40 else ''}")
