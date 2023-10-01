@@ -49,11 +49,11 @@ while i < len(d):
 
     chunklen = len(zipfilerecord) + len(extrafield_header)
     out.append(struct.pack(">I", chunklen))
-    chunk = b'fZIP' + zipfilerecord + extrafield_header
+    chunk = b'fzIP' + zipfilerecord + extrafield_header
     fileheader_offset = len(b''.join(out)) + 4
     out.append(chunk)
     out.append(struct.pack(">I", zlib.crc32(chunk) & 0xffffffff))
-    print("Injected fZIP")
+    print("Injected fzIP")
 
   if type == b'IEND':
     # Inject a ZIP directory entry and end of directory header.
@@ -64,10 +64,10 @@ while i < len(d):
       fileheader_offset,b"IDAT.bin",
       b"PK\5\6",0,0,1,1,54,len(b''.join(out))+8,4+12+len(comment)) + comment
     out.append(struct.pack(">I", len(zipheaders)))
-    chunk = b'eZIP' + zipheaders
+    chunk = b'ezIP' + zipheaders
     out.append(chunk)
     out.append(struct.pack(">I", zlib.crc32(chunk) & 0xffffffff))
-    print("Injected eZIP")
+    print("Injected ezIP")
 
   out.append(d[j:j+12+sz])
 
