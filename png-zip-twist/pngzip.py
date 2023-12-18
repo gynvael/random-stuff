@@ -57,7 +57,9 @@ while i < len(d):
 
   if type == b'IEND':
     # Inject a ZIP directory entry and end of directory header.
-    comment = "Sorry, ignore this comment 🤷\n".encode()
+    # Update: Ange Albertini suggested to use \0 at the beginning, which makes
+    # me wonder why didn't I try that.
+    comment = "\0Sorry, ignore this comment 🤷\n".encode()
 
     zipheaders = struct.pack("<4sHHHHHHIIIHHHHHII8s4sHHHHIIH",
       b"PK\1\2",20,20,2048,8,0,0,checksum,cmplen,dcmplen,8,0,0,0,0,0xb481,
